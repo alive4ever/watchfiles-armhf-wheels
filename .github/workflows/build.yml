@@ -12,6 +12,7 @@ jobs:
     strategy:
       matrix:
         python_version: [3.11, 3.12, 3.13, 3.14]
+        rust_target: [ 'armv7-unknown-linux-musleabihf', 'arm-unknown-linux-musleabihf' ]
     runs-on: ubuntu-26.04-arm
     steps:
       - name: Prepare qemu-user
@@ -35,7 +36,7 @@ jobs:
         with:
           command: build
           args: --release --out ${{ github.workspace }}/dist -i python${{ matrix.python_version }}
-          target: armv7-unknown-linux-musleabihf
+          target: ${{ matrix.rust_target }}
           manylinux: musllinux_1_2
           working-directory: ${{ github.workspace }}/watchfiles
       - name: Upload artifacts
